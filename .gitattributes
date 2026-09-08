@@ -1,0 +1,29 @@
+# Normalize line endings so the repository always stores LF, regardless of the
+# contributor's platform or local core.autocrlf setting.
+* text=auto eol=lf
+
+# Windows-only scripts must keep CRLF in the working tree to run correctly.
+*.bat  text eol=crlf
+*.cmd  text eol=crlf
+*.ps1  text eol=crlf
+
+# Visual Studio regenerates these with CRLF; keeping them CRLF avoids churn.
+*.sln  text eol=crlf
+
+# Binary files: never convert, never diff as text.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.webp binary
+*.pdf  binary
+*.woff  binary
+*.woff2 binary
+*.ttf  binary
+*.otf  binary
+*.zip  binary
+*.gz   binary
+*.dll  binary
+*.exe  binary
+*.snk  binary
