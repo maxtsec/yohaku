@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yohaku — prototype</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="fixture-banner" id="fixtureBanner">
+  <strong>Prototype.</strong>
+  <span>The video is real; the transcript, translations and learning points are authored fixture data and do <em>not</em> match what is said in it. No transcript provider or AI call is involved.</span>
+</div>
+
+<!-- ============ Screen 1: submit a URL ============ -->
+<main class="screen screen-input" id="screenInput">
+  <div class="input-card">
+    <h1 class="wordmark">Yohaku<span class="wordmark-jp">余白</span></h1>
+    <p class="tagline">A sentence-by-sentence comprehension tool for learning Japanese through authentic YouTube content.</p>
+
+    <label class="field">
+      <span class="field-label">YouTube URL</span>
+      <input type="text" id="urlInput" value="https://www.youtube.com/watch?v=Kr-aY2k2JXU" spellcheck="false">
+    </label>
+    <p class="field-error" id="urlError" hidden></p>
+
+    <fieldset class="field">
+      <legend class="field-label">Explanation language</legend>
+      <div class="segmented" id="langPicker">
+        <button type="button" data-lang="zh-Hant" class="is-active">繁體中文</button>
+        <button type="button" data-lang="en">English</button>
+      </div>
+    </fieldset>
+
+    <button class="btn-primary" id="analyzeBtn">Analyse</button>
+
+    <p class="note">The prototype always plays back the same bundled fixture analysis, whatever URL you enter.</p>
+  </div>
+</main>
+
+<!-- ============ Screen 2: analysing ============ -->
+<main class="screen screen-analyzing" id="screenAnalyzing" hidden>
+  <div class="analyzing-card">
+    <div class="spinner" aria-hidden="true"></div>
+    <h2 id="stageTitle">Queued</h2>
+    <p class="stage-detail" id="stageDetail">Waiting for a worker</p>
+    <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+    <ul class="stage-list" id="stageList"></ul>
+    <p class="note">Analysis finishes before the learning screen opens. Playback never calls the AI.</p>
+  </div>
+</main>
+
+<!-- ============ Screen 3: learning ============ -->
+<main class="screen screen-learning" id="screenLearning" hidden>
+  <header class="topbar">
+    <div class="topbar-left">
+      <span class="wordmark-sm">Yohaku</span>
+      <span class="video-title" id="videoTitle"></span>
+    </div>
+    <div class="topbar-right">
+      <label class="switch">
+        <input type="checkbox" id="translationToggle" checked>
+        <span id="translationToggleLabel">翻譯</span>
+      </label>
+      <div class="segmented segmented-sm" id="langPickerLearning">
+        <button type="button" data-lang="zh-Hant" class="is-active">中</button>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+      <button class="btn-ghost" id="restartBtn">Restart</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <section class="col-video">
+      <div class="player-frame"><div id="player"></div></div>
+
+      <div class="sentence-panel" id="sentencePanel">
+        <div class="sentence-meta">
+          <span class="time-chip" id="sentenceTime">0:00</span>
+          <span class="sentence-index" id="sentenceIndex"></span>
+        </div>
+        <p class="sentence-jp" id="sentenceJp">—</p>
+        <p class="sentence-tr" id="sentenceTr"></p>
+      </div>
+    </section>
+
+    <aside class="col-points">
+      <div class="tabs" id="tabs">
+        <button type="button" data-tab="points" class="is-active">
+          <span id="tabPointsLabel">學習重點</span> <span class="count" id="pointCount">0</span>
+        </button>
+        <button type="button" data-tab="summary"><span id="tabSummaryLabel">Summary</span></button>
+      </div>
+
+      <div class="tab-panel" id="panelPoints">
+        <div class="points-scroll" id="pointsScroll">
+          <p class="empty-state" id="pointsEmpty">Learning points appear here as the video plays. Ordinary sentences may produce none.</p>
+          <div id="pointsList"></div>
+        </div>
+        <button class="jump-latest" id="jumpLatest" hidden>New points below ↓</button>
+      </div>
+
+      <div class="tab-panel" id="panelSummary" hidden>
+        <div class="points-scroll" id="summaryScroll">
+          <div class="summary-head">
+            <p id="summaryCoverage" class="coverage"></p>
+          </div>
+          <div id="summaryList"></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<script src="fixture.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
